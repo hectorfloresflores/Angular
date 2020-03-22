@@ -1,0 +1,74 @@
+<div class="container-fluid">
+
+  <div class="row">
+
+    <div class="col-3">
+
+      <div class="input-group ">
+
+        <input type="text" class="form-control" [(ngModel)]="message" (input)="inputChanging($event.target.value)"
+                                        (keydown.enter)="search()">
+        <div class="input-group-append">
+          <button class=" btn btn-outline-info" (click)="search()">Buscar</button>
+        </div>
+        
+        
+      </div>
+
+    </div>
+
+  </div>
+  <div class="show" *ngIf="show">
+      
+      Buscando:{{message}}
+  </div>
+  
+  <div class="row">
+
+    <div class="col-6">
+
+        <form>
+            <br> 
+            <div class="form-group">
+                <label class="d-block">
+                    <input type="checkbox" class="mr-1" name="filter-exists" (change)="checkExistance($event.target.checked)"> Solo en existencia
+                </label>
+                <label class="d-block">
+                    <input type="checkbox" class="mr-1" name="order" (change)="checkOrder($event.target.checked)"> Ordenar por precio(menor a mayor)
+                </label>
+                <label class="d-block">
+                    <input type="checkbox" class="mr-1" name="colored" (change)="checkGreatherThanThree($event.target.checked)"> Resaltar existencia mayor a 3
+                </label>
+            </div>
+        </form>
+
+    </div>
+
+  </div>
+
+</div>
+
+<div class="alert alert-danger" *ngIf="arrayProducts.length < 1" role="alert">
+    <strong>Ningún producto concuerda con la busqueda</strong>
+</div>
+
+<table class="table">
+   
+    <tbody>
+        <tr *ngFor="let product of arrayProducts; let i = index" 
+            [ngStyle]="{'background-color': (moreThanThree == true && product.existencia > 3) ? 'green' : 'none' }">
+            <td  scope="row" *ngIf="existence == false || product.existencia > 0"> 
+                <img src="https://i.picsum.photos/id/{{product.uid}}/150/150.jpg" alt="">
+            </td>
+            <td scope="row" *ngIf="existence == false || product.existencia > 0">
+                <h5>{{product.nombre}}</h5>
+                <p>Precio: {{product.precio}}</p>
+                <p>Marca: {{product.marca}}</p>
+                <p>Descripcion: {{product.descripcion}}</p>
+                <p>Existencia: {{product.existencia}}</p>
+            </td>
+            
+            
+        </tr>
+    </tbody>
+</table>
